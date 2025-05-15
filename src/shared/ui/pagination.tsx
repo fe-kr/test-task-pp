@@ -18,7 +18,7 @@ export const Pagination = ({
       <Button
         title="Prev"
         onPress={() => onPageChange(page - 1)}
-        disabled={!page}
+        disabled={!numberOfPages || !page}
       />
 
       {!!label && <Text>{label}</Text>}
@@ -26,7 +26,7 @@ export const Pagination = ({
       <Button
         onPress={() => onPageChange(page + 1)}
         title="Next"
-        disabled={page === numberOfPages}
+        disabled={!numberOfPages || page === numberOfPages - 1}
       />
     </View>
   );

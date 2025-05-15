@@ -64,7 +64,10 @@ const DriversTableRow = ({ item }: ListRenderItemInfo<Driver>) => (
     <TableCell>{item.nationality}</TableCell>
     <TableCell>{item.dateOfBirth}</TableCell>
     <TableCell>
-      <Link screen={NavigationRoute.RACES} params={{ driverId: item.driverId }}>
+      <Link
+        screen={NavigationRoute.DRIVER_RACES}
+        params={{ driverId: item.driverId }}
+      >
         Races
       </Link>
     </TableCell>

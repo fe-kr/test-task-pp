@@ -1,5 +1,5 @@
 export const NavigationRoute = {
-  RACES: "races",
+  DRIVER_RACES: "driver-races",
   DRIVERS: "drivers",
   DRIVER: "driver",
 };
