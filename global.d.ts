@@ -9,7 +9,6 @@ declare global {
     interface PaginationParams {
       page: number;
       limit?: number;
-      totalPages?: number;
     }
 
     type RawResponse<T> = {
@@ -23,9 +22,14 @@ declare global {
       } & T;
     };
 
+    interface PaginatedResponseMetadata {
+      page: number;
+      totalPages: number;
+    }
+
     interface PaginatedResponse<T> {
       data: T[];
-      metadata: Required<PaginationParams>;
+      metadata: PaginatedResponseMetadata;
     }
   }
 }

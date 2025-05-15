@@ -7,7 +7,7 @@ import {
 } from "src/shared/lib/redux";
 import { fetchDrivers, Driver } from "./drivers.api";
 
-const initialState: InitialState<Driver[]> & Http.PaginationParams = {
+const initialState: InitialState<Driver[]> & Http.PaginatedResponseMetadata = {
   data: null,
   loading: false,
   error: null,

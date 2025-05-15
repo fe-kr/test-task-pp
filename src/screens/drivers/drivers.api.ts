@@ -34,9 +34,7 @@ export const fetchDrivers = async ({
       data: data.MRData.DriverTable.Drivers,
       metadata: {
         page,
-        limit,
-        totalPages:
-          +data.MRData.total && Math.floor(+data.MRData.total / limit),
+        totalPages: Math.ceil(+data.MRData.total / limit),
       },
     };
   } catch {

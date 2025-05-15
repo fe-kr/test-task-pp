@@ -13,6 +13,7 @@ import { useAppDispath, useAppSelector } from "src/shared/lib/redux";
 import {
   selectDriverRaces,
   fetchDriverRacesAction,
+  driverRacesActions,
 } from "./driver-races.model";
 import { StaticScreenProps } from "@react-navigation/native";
 import { ErrorView } from "src/shared/ui/error-view";
@@ -37,8 +38,9 @@ export const DriverRacesScreen = ({ route }: DriverRacesScreenProps) => {
 
     return () => {
       promise.abort();
+      dispatch(driverRacesActions.reset());
     };
-  }, [getDriverRacesPerPage]);
+  }, [getDriverRacesPerPage, dispatch]);
 
   if (error) {
     return (
@@ -59,8 +61,7 @@ export const DriverRacesScreen = ({ route }: DriverRacesScreenProps) => {
       <Pagination
         page={page}
         disabled={loading}
-        numberOfPages={totalPages!}
-        label={`Page ${page + 1} of ${totalPages}`}
+        numberOfPages={totalPages}
         onPageChange={getDriverRacesPerPage}
       />
     </View>

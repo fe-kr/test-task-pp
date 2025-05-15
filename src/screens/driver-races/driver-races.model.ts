@@ -10,7 +10,8 @@ import {
   RequestDriverRacesParams,
 } from "./driver-races.api";
 
-const initialState: InitialState<DriverRace[]> & Http.PaginationParams = {
+const initialState: InitialState<DriverRace[]> &
+  Http.PaginatedResponseMetadata = {
   data: null,
   loading: false,
   error: null,
@@ -29,7 +30,9 @@ export const fetchDriverRacesAction = createAppAsyncThunk(
 const driverRacesSlice = createSlice({
   name: "driver-races",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: () => initialState,
+  },
   selectors: {
     selectDriverRaces: (state) => state,
   },

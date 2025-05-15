@@ -52,8 +52,7 @@ export const DriversScreen = () => {
       <Pagination
         page={page}
         disabled={loading}
-        numberOfPages={totalPages!}
-        label={`Page ${page + 1} of ${totalPages}`}
+        numberOfPages={totalPages}
         onPageChange={getDriversPerPage}
       />
     </View>

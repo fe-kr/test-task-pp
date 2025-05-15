@@ -48,8 +48,7 @@ export const fetchDriverRaces = async ({
       data: data.MRData.RaceTable.Races,
       metadata: {
         page,
-        limit,
-        totalPages: +data.MRData.total && Math.ceil(+data.MRData.total / limit),
+        totalPages: Math.ceil(+data.MRData.total / limit),
       },
     };
   } catch {
