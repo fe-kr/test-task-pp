@@ -1,24 +1,12 @@
-import { View, Text } from "react-native";
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-function Home() {
-  return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
+import { NavigationRoute } from "src/shared/config/navigation";
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: "Home",
+  initialRouteName: NavigationRoute.DRIVERS,
   screens: {
-    Home,
+    [NavigationRoute.DRIVERS]: () => null,
   },
 });
 
 export const NavigationProvider = createStaticNavigation(RootStack);
-
-export const App = () => {
-  return <NavigationProvider />;
-};
