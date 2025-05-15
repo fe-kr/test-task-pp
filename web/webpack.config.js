@@ -4,10 +4,23 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
 const appDirectory = path.resolve(__dirname, "../");
+const npmDirectory = path.resolve(appDirectory, "node_modules");
 const babelConfig = require("../babel.config");
+
+const rawNodeModulesPaths = [path.resolve(npmDirectory, "@react-navigation")];
+
+// Workaround for fix build errors
+const nodeModulesConfiguration = {
+  test: /\.(tsx|jsx|ts|js)?$/,
+  include: rawNodeModulesPaths,
+  resolve: {
+    fullySpecified: false,
+  },
+};
 
 const babelLoaderConfiguration = {
   test: /\.(tsx|jsx|ts|js)?$/,
+  exclude: rawNodeModulesPaths,
   include: [
     path.resolve(appDirectory, "index"),
     path.resolve(appDirectory, "src"),
@@ -74,6 +87,7 @@ module.exports = (argv) => {
     module: {
       rules: [
         babelLoaderConfiguration,
+        nodeModulesConfiguration,
         imageLoaderConfiguration,
         fontLoaderConfiguration,
       ],
