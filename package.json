@@ -1,6 +1,8 @@
 {
   "name": "TestTaskPP",
   "version": "0.0.1",
+  "description": "Тестовое задание на позицию FE разработчика",
+  "author": "fe-kr <fekr.dev@gmail.com>",
   "private": true,
   "scripts": {
     "start": "react-native start",
