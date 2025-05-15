@@ -64,8 +64,8 @@ const DriversTableHeader = () => (
   <TableHeader>
     <TableHeaderCell>Full Name</TableHeaderCell>
     <TableHeaderCell>Nationality</TableHeaderCell>
-    <TableHeaderCell>Date Of Birth</TableHeaderCell>
-    <TableHeaderCell />
+    <TableHeaderCell>DOB</TableHeaderCell>
+    <TableHeaderCell>Races</TableHeaderCell>
   </TableHeader>
 );
 
@@ -86,7 +86,7 @@ const DriversTableRow = ({ item }: ListRenderItemInfo<Driver>) => (
         screen={NavigationRoute.DRIVER_RACES}
         params={{ driverId: item.driverId }}
       >
-        Races
+        Go to Races
       </Link>
     </TableCell>
   </TableRow>
