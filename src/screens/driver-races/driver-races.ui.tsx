@@ -15,6 +15,7 @@ import {
   fetchDriverRacesAction,
 } from "./driver-races.model";
 import { StaticScreenProps } from "@react-navigation/native";
+import { ErrorView } from "src/shared/ui/error-view";
 
 type DriverRacesScreenProps = StaticScreenProps<{ driverId: string }>;
 
@@ -22,7 +23,8 @@ export const DriverRacesScreen = ({ route }: DriverRacesScreenProps) => {
   const dispatch = useAppDispath();
 
   const { driverId } = route.params;
-  const { data, page, loading, totalPages } = useAppSelector(selectDriverRaces);
+  const { data, page, error, loading, totalPages } =
+    useAppSelector(selectDriverRaces);
 
   const getDriverRacesPerPage = useCallback(
     (pageNumber: number) =>
@@ -37,6 +39,12 @@ export const DriverRacesScreen = ({ route }: DriverRacesScreenProps) => {
       promise.abort();
     };
   }, [getDriverRacesPerPage]);
+
+  if (error) {
+    return (
+      <ErrorView message={error} onRetry={() => getDriverRacesPerPage(page)} />
+    );
+  }
 
   return (
     <View style={styles.container}>

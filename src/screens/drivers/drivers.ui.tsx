@@ -13,10 +13,12 @@ import { Pagination } from "src/shared/ui/pagination";
 import { useCallback, useEffect } from "react";
 import { useAppDispath, useAppSelector } from "src/shared/lib/redux";
 import { fetchDriversAction, selectDrivers } from "./drivers.model";
+import { ErrorView } from "src/shared/ui/error-view";
 
 export const DriversScreen = () => {
   const dispatch = useAppDispath();
-  const { data, page, loading, totalPages } = useAppSelector(selectDrivers);
+  const { data, page, loading, error, totalPages } =
+    useAppSelector(selectDrivers);
 
   const getDriversPerPage = useCallback(
     (pageNumber: number) => dispatch(fetchDriversAction({ page: pageNumber })),
@@ -30,6 +32,12 @@ export const DriversScreen = () => {
       promise.abort();
     };
   }, [getDriversPerPage]);
+
+  if (error) {
+    return (
+      <ErrorView message={error} onRetry={() => getDriversPerPage(page)} />
+    );
+  }
 
   return (
     <View style={styles.container}>
