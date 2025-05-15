@@ -76,3 +76,6 @@ yarn-error.log
 
 # Build
 dist/
+
+# ENV
+.env

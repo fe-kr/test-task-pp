@@ -2,8 +2,10 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const dotenv = require("dotenv");
 
 const appDirectory = path.resolve(__dirname, "../");
+const envFilePath = path.resolve(appDirectory, ".env");
 const npmDirectory = path.resolve(appDirectory, "node_modules");
 const babelConfig = require("../babel.config");
 
@@ -98,7 +100,9 @@ module.exports = (argv) => {
       }),
       new webpack.DefinePlugin({
         __DEV__: argv.mode !== "production" || true,
-        process: { env: {} },
+        process: {
+          env: JSON.stringify(dotenv.config({ path: envFilePath }).parsed),
+        },
       }),
     ],
     optimization: {
