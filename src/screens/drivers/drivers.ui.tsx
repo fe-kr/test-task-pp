@@ -6,21 +6,38 @@ import {
   TableHeader,
 } from "src/shared/ui/table";
 import { Link } from "@react-navigation/native";
-import { Driver } from "./drivers.types";
+import { Driver } from "./drivers.api";
 import { ListRenderItemInfo, StyleSheet, View } from "react-native";
 import { NavigationRoute } from "src/shared/config/navigation";
 import { Pagination } from "src/shared/ui/pagination";
+import { useEffect } from "react";
+import { useAppDispath, useAppSelector } from "src/shared/lib/redux";
+import { fetchDriversAction, selectDrivers } from "./drivers.model";
 
 export const DriversScreen = () => {
+  const dispatch = useAppDispath();
+  const { data, page, loading, totalPages } = useAppSelector(selectDrivers);
+
+  useEffect(() => {
+    dispatch(fetchDriversAction({ page: 0 }));
+  }, [dispatch]);
+
   return (
     <View style={styles.container}>
       <Table
-        data={[]}
+        isLoading={loading}
+        data={data}
         numColumns={4}
         renderItem={DriversTableRow}
         ListHeaderComponent={DriversTableHeader}
       />
-      <Pagination page={0} numberOfPages={1} onPageChange={() => {}} />
+
+      <Pagination
+        page={page}
+        numberOfPages={totalPages!}
+        label={`Page ${page + 1} of ${totalPages}`}
+        onPageChange={(page) => dispatch(fetchDriversAction({ page }))}
+      />
     </View>
   );
 };

@@ -16,18 +16,22 @@ export const fetchDrivers = async ({
   page,
   limit = 10,
 }: Http.PaginationParams): Promise<Http.PaginatedResponse<Driver>> => {
-  const params = { limit, offset: page * limit };
+  try {
+    const params = { limit, offset: page * limit };
 
-  const { data } = await httpClient.get<DriversResponse>("/drivers.json", {
-    params,
-  });
+    const { data } = await httpClient.get<DriversResponse>("/drivers.json", {
+      params,
+    });
 
-  return {
-    data: data.MRData.DriverTable.Drivers,
-    metadata: {
-      page,
-      limit,
-      totalPages: Math.ceil(+data.MRData.total / limit),
-    },
-  };
+    return {
+      data: data.MRData.DriverTable.Drivers,
+      metadata: {
+        page,
+        limit,
+        totalPages: Math.floor(+data.MRData.total / limit),
+      },
+    };
+  } catch {
+    throw new Error("Failed to load drivers");
+  }
 };

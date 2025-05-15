@@ -6,6 +6,7 @@ import {
   View,
   Text,
 } from "react-native";
+import { Loader } from "./loader";
 
 export const TableHeader = ({ children }: React.PropsWithChildren) => {
   return <View style={styles.header}>{children}</View>;
@@ -39,14 +40,20 @@ export const TablePlaceholder = () => {
   );
 };
 
-export const Table = <T,>(props: FlatListProps<T>) => {
+export const Table = <T,>({
+  isLoading,
+  data,
+  ...props
+}: FlatListProps<T> & { isLoading?: boolean }) => {
   return (
     <ScrollView horizontal contentContainerStyle={styles.container}>
       <FlatList
         {...props}
+        data={isLoading ? [] : data}
         columnWrapperStyle={styles.columnWrapperStyle}
         contentContainerStyle={styles.flatList}
-        ListEmptyComponent={TablePlaceholder}
+        ListEmptyComponent={isLoading ? Loader : TablePlaceholder}
+        stickyHeaderIndices={[0]}
       />
     </ScrollView>
   );

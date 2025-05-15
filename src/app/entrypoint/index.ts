@@ -1,1 +1,1 @@
-export { RootProvider as App } from "../providers/root.provider";
+export { RootProvider as App } from "../providers";

@@ -1,5 +1,10 @@
 import { NavigationProvider } from "./navigation.provider";
+import { StoreProvider } from "./store.provider";
 
 export const RootProvider = () => {
-  return <NavigationProvider />;
+  return (
+    <StoreProvider>
+      <NavigationProvider />
+    </StoreProvider>
+  );
 };
