@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   flatList: {
-    flex: 1,
+    flexGrow: 1,
   },
   columnWrapperStyle: {
     flexDirection: "column",
