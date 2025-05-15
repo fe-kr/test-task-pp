@@ -9,7 +9,10 @@ const envFilePath = path.resolve(appDirectory, ".env");
 const npmDirectory = path.resolve(appDirectory, "node_modules");
 const babelConfig = require("../babel.config");
 
-const rawNodeModulesPaths = [path.resolve(npmDirectory, "@react-navigation")];
+const rawNodeModulesPaths = [
+  path.resolve(npmDirectory, "@react-navigation"),
+  path.resolve(npmDirectory, "@react-native-async-storage"),
+];
 
 // Workaround for fix build errors
 const nodeModulesConfiguration = {
