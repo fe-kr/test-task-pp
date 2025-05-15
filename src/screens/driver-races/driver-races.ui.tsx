@@ -8,7 +8,7 @@ import {
 } from "src/shared/ui/table";
 import { DriverRace } from "./driver-races.api";
 import { Pagination } from "src/shared/ui/pagination";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispath, useAppSelector } from "src/shared/lib/redux";
 import {
   selectDriverRaces,
@@ -20,12 +20,23 @@ type DriverRacesScreenProps = StaticScreenProps<{ driverId: string }>;
 
 export const DriverRacesScreen = ({ route }: DriverRacesScreenProps) => {
   const dispatch = useAppDispath();
+
   const { driverId } = route.params;
   const { data, page, loading, totalPages } = useAppSelector(selectDriverRaces);
 
+  const getDriverRacesPerPage = useCallback(
+    (pageNumber: number) =>
+      dispatch(fetchDriverRacesAction({ page: pageNumber, driverId })),
+    [dispatch, driverId],
+  );
+
   useEffect(() => {
-    dispatch(fetchDriverRacesAction({ page: 0, driverId }));
-  }, [dispatch, driverId]);
+    const promise = getDriverRacesPerPage(0);
+
+    return () => {
+      promise.abort();
+    };
+  }, [getDriverRacesPerPage]);
 
   return (
     <View style={styles.container}>
@@ -39,11 +50,10 @@ export const DriverRacesScreen = ({ route }: DriverRacesScreenProps) => {
 
       <Pagination
         page={page}
+        disabled={loading}
         numberOfPages={totalPages!}
         label={`Page ${page + 1} of ${totalPages}`}
-        onPageChange={(page) =>
-          dispatch(fetchDriverRacesAction({ page, driverId }))
-        }
+        onPageChange={getDriverRacesPerPage}
       />
     </View>
   );

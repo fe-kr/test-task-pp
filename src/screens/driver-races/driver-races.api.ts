@@ -1,3 +1,4 @@
+import { GenericAbortSignal } from "axios";
 import { httpClient } from "src/shared/api";
 
 export interface DriverRace {
@@ -22,6 +23,7 @@ export interface DriverRace {
 
 export interface RequestDriverRacesParams extends Http.PaginationParams {
   driverId: string;
+  signal?: GenericAbortSignal;
 }
 
 type DriverRacesResponse = Http.RawResponse<{
@@ -30,6 +32,7 @@ type DriverRacesResponse = Http.RawResponse<{
 
 export const fetchDriverRaces = async ({
   driverId,
+  signal,
   page,
   limit = 10,
 }: RequestDriverRacesParams): Promise<Http.PaginatedResponse<DriverRace>> => {
@@ -38,7 +41,7 @@ export const fetchDriverRaces = async ({
 
     const { data } = await httpClient.get<DriverRacesResponse>(
       `/drivers/${driverId}/races.json`,
-      { params },
+      { params, signal },
     );
 
     return {

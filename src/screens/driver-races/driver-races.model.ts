@@ -20,8 +20,8 @@ const initialState: InitialState<DriverRace[]> & Http.PaginationParams = {
 
 export const fetchDriverRacesAction = createAppAsyncThunk(
   "driver-races/fetchDriverRaces",
-  (payload: RequestDriverRacesParams, { rejectWithValue }) =>
-    fetchDriverRaces(payload).catch((err: Error) =>
+  (payload: RequestDriverRacesParams, { rejectWithValue, signal }) =>
+    fetchDriverRaces({ ...payload, signal }).catch((err: Error) =>
       rejectWithValue(err.message),
     ),
 );

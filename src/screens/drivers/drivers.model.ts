@@ -17,8 +17,10 @@ const initialState: InitialState<Driver[]> & Http.PaginationParams = {
 
 export const fetchDriversAction = createAppAsyncThunk(
   "drivers/fetchDrivers",
-  (payload: Http.PaginationParams, { rejectWithValue }) =>
-    fetchDrivers(payload).catch((err: Error) => rejectWithValue(err.message)),
+  (payload: Http.PaginationParams, { rejectWithValue, signal }) =>
+    fetchDrivers({ ...payload, signal }).catch((err: Error) =>
+      rejectWithValue(err.message),
+    ),
 );
 
 const driversSlice = createSlice({

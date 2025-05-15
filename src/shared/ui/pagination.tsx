@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet } from "react-native";
 type PaginationProps = {
   page: number;
   numberOfPages: number;
+  disabled?: boolean;
   label?: string;
   onPageChange: (page: number) => void;
 };
@@ -10,6 +11,7 @@ type PaginationProps = {
 export const Pagination = ({
   page,
   label,
+  disabled,
   numberOfPages,
   onPageChange,
 }: PaginationProps) => {
@@ -18,7 +20,7 @@ export const Pagination = ({
       <Button
         title="Prev"
         onPress={() => onPageChange(page - 1)}
-        disabled={!numberOfPages || !page}
+        disabled={disabled || !numberOfPages || !page}
       />
 
       {!!label && <Text>{label}</Text>}
@@ -26,7 +28,7 @@ export const Pagination = ({
       <Button
         onPress={() => onPageChange(page + 1)}
         title="Next"
-        disabled={!numberOfPages || page === numberOfPages - 1}
+        disabled={disabled || !numberOfPages || page === numberOfPages - 1}
       />
     </View>
   );

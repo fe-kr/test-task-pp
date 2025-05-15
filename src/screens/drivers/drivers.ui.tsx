@@ -10,7 +10,7 @@ import { Driver } from "./drivers.api";
 import { ListRenderItemInfo, StyleSheet, View } from "react-native";
 import { NavigationRoute } from "src/shared/config/navigation";
 import { Pagination } from "src/shared/ui/pagination";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispath, useAppSelector } from "src/shared/lib/redux";
 import { fetchDriversAction, selectDrivers } from "./drivers.model";
 
@@ -18,9 +18,18 @@ export const DriversScreen = () => {
   const dispatch = useAppDispath();
   const { data, page, loading, totalPages } = useAppSelector(selectDrivers);
 
+  const getDriversPerPage = useCallback(
+    (pageNumber: number) => dispatch(fetchDriversAction({ page: pageNumber })),
+    [dispatch],
+  );
+
   useEffect(() => {
-    dispatch(fetchDriversAction({ page: 0 }));
-  }, [dispatch]);
+    const promise = getDriversPerPage(0);
+
+    return () => {
+      promise.abort();
+    };
+  }, [getDriversPerPage]);
 
   return (
     <View style={styles.container}>
@@ -34,9 +43,10 @@ export const DriversScreen = () => {
 
       <Pagination
         page={page}
+        disabled={loading}
         numberOfPages={totalPages!}
         label={`Page ${page + 1} of ${totalPages}`}
-        onPageChange={(page) => dispatch(fetchDriversAction({ page }))}
+        onPageChange={getDriversPerPage}
       />
     </View>
   );

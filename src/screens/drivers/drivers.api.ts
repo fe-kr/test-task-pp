@@ -1,3 +1,4 @@
+import { GenericAbortSignal } from "axios";
 import { httpClient } from "src/shared/api";
 
 export interface Driver {
@@ -8,19 +9,25 @@ export interface Driver {
   dateOfBirth: string;
 }
 
+export interface RequestDriversParams extends Http.PaginationParams {
+  signal?: GenericAbortSignal;
+}
+
 type DriversResponse = Http.RawResponse<{
   DriverTable: { Drivers: Driver[] };
 }>;
 
 export const fetchDrivers = async ({
   page,
+  signal,
   limit = 10,
-}: Http.PaginationParams): Promise<Http.PaginatedResponse<Driver>> => {
+}: RequestDriversParams): Promise<Http.PaginatedResponse<Driver>> => {
   try {
     const params = { limit, offset: page * limit };
 
     const { data } = await httpClient.get<DriversResponse>("/drivers.json", {
       params,
+      signal,
     });
 
     return {
